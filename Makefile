@@ -1,19 +1,20 @@
-NAME = weaveworksdemos/catalogue
-DBNAME = weaveworksdemos/catalogue-db
+NAME = sls-microservices/catalogue
+DBNAME = sls-microservices/catalogue-db
 
 TAG=$(TRAVIS_COMMIT)
 
 INSTANCE = catalogue
 
-.PHONY: default copy test
+.PHONY: default copy test docker
 
-default: test
+default: docker
 
-release:
+docker:
+	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o app ./cmd/cataloguesvc
 	docker build -t $(NAME) -f ./docker/catalogue/Dockerfile .
 
 test: 
-	GROUP=weaveworksdemos COMMIT=test ./scripts/build.sh
+	GROUP=sls-microservices COMMIT=test ./scripts/build.sh
 	./test/test.sh unit.py
 	./test/test.sh container.py --tag $(TAG)
 
