@@ -99,7 +99,7 @@ func initTracer() {
 	tp := sdktrace.NewTracerProvider(sdktrace.WithConfig(sdktrace.Config{DefaultSampler: sdktrace.AlwaysSample()}),
 		sdktrace.WithSyncer(traceExporter),
 		//sdktrace.WithSyncer(&TTE{}),
-		sdktrace.WithResource(resource.NewWithAttributes(semconv.ServiceNameKey.String("user"), semconv.HostNameKey.String(hostname))))
+		sdktrace.WithResource(resource.NewWithAttributes(semconv.ServiceNameKey.String("catalogue"), semconv.HostNameKey.String(hostname))))
 	otel.SetTracerProvider(tp)
 	otel.SetTextMapPropagator(propagation.NewCompositeTextMapPropagator(propagation.TraceContext{}, propagation.Baggage{}))
 }
